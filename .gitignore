@@ -1,0 +1,10 @@
+/bin
+/target
+/.metadata
+/.settings
+
+*.css
+*.gif
+*.jpg
+*.js
+*.png
