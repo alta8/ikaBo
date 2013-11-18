@@ -13,7 +13,7 @@ public class ParserTest {
 	@Test
 	public void testPalast()
 	{
-		Parser p = new Parser(new ParserInput("file:src/main/resources/pages/index-php_action_loginAvatar-function_login"));
+		Parser p = new Parser(new ParserInput("file:src/test/resources/pages/index-php_action_loginAvatar-function_login"));
 		
 		Assert.assertEquals(4, p.palast().size());
 
@@ -39,7 +39,7 @@ public class ParserTest {
 	@Test
 	public void testActionPoints()
 	{
-		Parser parser = new Parser(new ParserInput("file:src/main/resources/pages/index.php_lagerhaus.html"));
+		Parser parser = new Parser(new ParserInput("file:src/test/resources/pages/index.php_lagerhaus.html"));
 		
 		Assert.assertEquals(parser.actionPoints(), 4);
 		
@@ -68,7 +68,7 @@ public class ParserTest {
 		
 		final int[] schiffe = {14, 15};
 		
-		Parser parser = new Parser(new ParserInput("file:src/main/resources/pages/index.php_lagerhaus.html"));
+		Parser parser = new Parser(new ParserInput("file:src/test/resources/pages/index.php_lagerhaus.html"));
 		final int[] result = parser.schiffe();
 		
 		Assert.assertEquals(schiffe[VERFUEGBAR_IDX], result[VERFUEGBAR_IDX]);
@@ -78,7 +78,7 @@ public class ParserTest {
 	@Test
 	public void testLager()
 	{
-		Parser parser = new Parser(new ParserInput("file:src/main/resources/pages/index.php_lagerhaus.html"));
+		Parser parser = new Parser(new ParserInput("file:src/test/resources/pages/index.php_lagerhaus.html"));
 		final Lager lager = parser.lager();
 		
 		Assert.assertEquals(5860, lager.getSicher());
