@@ -12,7 +12,6 @@ import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.HTMLElementName;
 import net.htmlparser.jericho.HTMLElements;
 import net.htmlparser.jericho.Segment;
-
 import de.alta.ikariamBot.City;
 import de.alta.ikariamBot.Environment;
 import de.alta.ikariamBot.Lager;
@@ -21,18 +20,13 @@ import net.htmlparser.jericho.Source;
 
 public class Parser {
 
-	private Source mSource;
+	Source mSource;
 
 	public Parser(ParserInput parserInput) {
 		mSource = parserInput.source();
 		assert(null != mSource) : "Die Quelle sollte nicht null sein!";
 	}
 	
-	public Environment parse()
-	{
-		return null;
-		
-	}
 
 	public List<City> palast() {
 		List<City> cityList = new ArrayList<City>();
@@ -210,6 +204,26 @@ public class Parser {
 		final Element actionPntTag = mSource.getElementById("js_GlobalMenu_maxActionPoints");
 		final int actionPnts = parseElement2Int(actionPntTag);
 		return actionPnts;
+	}
+
+
+	/**
+	 * Extrahiert den Wert eines Parameters aus der URL.
+	 * @param url
+	 * @param param
+	 * @return
+	 */
+	static String urlParamValue(String url, String param) {
+		final String searchStr = param+"=";
+		final int idxParam = url.indexOf(searchStr);
+		final int idxParamEnd = url.indexOf("&", idxParam);
+		final int endIdx;
+		if (0>idxParamEnd)
+			endIdx = url.length();
+		else
+			endIdx = idxParamEnd;
+		final String value = (String) url.subSequence(idxParam+searchStr.length(), endIdx);
+		return value;
 	}
 
 	

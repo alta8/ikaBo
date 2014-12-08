@@ -1,5 +1,7 @@
 package de.alta.ikariamBot.parser;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -10,10 +12,13 @@ import de.alta.ikariamBot.Resource;
 
 public class ParserTest {
 
+	public static final String PROTOCOLL = "file";
+	public static final String PAGES_DIR = "src/test/resources/pages/";
+
 	@Test
 	public void testPalast()
 	{
-		Parser p = new Parser(new ParserInput("file:src/test/resources/pages/index-php_action_loginAvatar-function_login"));
+		Parser p = new Parser(new ParserInput(PROTOCOLL+":" + PAGES_DIR + "index-php_action_loginAvatar-function_login"));
 		
 		Assert.assertEquals(4, p.palast().size());
 
@@ -83,5 +88,18 @@ public class ParserTest {
 		
 		Assert.assertEquals(5860, lager.getSicher());
 		Assert.assertEquals(41199, lager.getHolz());
+	}
+	
+	@Test
+	public void testUrlParamValue()
+	{
+		String url = "http://s17-de.ikariam.gameforge.com/index.php?view=port&cityId=100351&position=1";
+		final String view = Parser.urlParamValue(url, "view");
+		assertEquals("port", view);
+		final String cityId = Parser.urlParamValue(url, "cityId");
+		assertEquals("100351", cityId);
+		final String position = Parser.urlParamValue(url, "position");
+		assertEquals("1", position);
+		
 	}
 }

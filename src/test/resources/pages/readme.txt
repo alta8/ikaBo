@@ -1,2 +1,0 @@
-rathaus: Bevölkerung und Produktion
-

@@ -44,7 +44,11 @@ public class IBot {
 			System.out.println("test");
 		}
 		
-		 einloggTest();
+		System.out.println("ping...");
+		DefaultHttpClient httpclient = new DefaultHttpClient();
+		HttpGet httpGet = new HttpGet("http://de.ikariam.gameforge.com/ajax/main/warserverinfos?nameDeimos&password=asdf12");
+		  
+//		 einloggTest();
 	     
 	     // einloggen
 	      
@@ -83,9 +87,13 @@ public class IBot {
 		 if (ent != null) ent.consumeContent();
 		 
 		 System.out.println("\n\nLOGIN:");
-		 HttpPost loginRequest = new HttpPost("http://s17.de.ikariam.com/index.php?action=loginAvatar&function=login");
-		 loginRequest.setHeader("name", "phobos");
-		 loginRequest.setHeader("password", "asdf");
+		 HttpPost loginRequest = new HttpPost("http://de.ikariam.gameforge.com/ajax/main/warserverinfos");
+//		 		+ "https://s27-de.ikariam.gameforge.com/index.php?action=loginAvatar&function=login");
+//		 loginRequest.setHeader("name", "Deimos8");
+//		 loginRequest.setHeader("password", "asdf12");
+		 HttpParams params = loginRequest.getParams();
+		 params.setParameter("name", "Deimos8");
+		 params.setParameter("password", "asdf12");
 		 response = httpclient.execute(loginRequest);
 		 System.out.println(response.getStatusLine());
 		 printCookies((AbstractHttpMessage)response);
@@ -194,8 +202,8 @@ public class IBot {
 		HttpURLConnection conn;
 		
 		try {
-			url = new URL("http://s8.ikariam.de/index.php?action=loginAvatar&function=login&name=phobos&password=asdf8asdf");
-
+			url = new URL("http://s27-de.ikariam.gameforge.com/index.php?action=loginAvatar&function=login&name=deimos8&password=asdf12");
+			
 			conn = (HttpURLConnection)url.openConnection();
 //			conn = (HttpURLConnection)url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("localhost", 9000)));
 //			conn.addRequestProperty("name", "phobos");
