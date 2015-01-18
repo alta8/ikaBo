@@ -1,5 +1,5 @@
 package de.alta.ikariamBot;
 
-public class Actions {
+public class Action {
 
 }

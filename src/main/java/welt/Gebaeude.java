@@ -1,4 +1,4 @@
-package de.alta.ikariamBot;
+package welt;
 
 /**
  * Super Klasse fuer Gebaeude.

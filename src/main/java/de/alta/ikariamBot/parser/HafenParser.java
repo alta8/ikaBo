@@ -3,9 +3,9 @@ package de.alta.ikariamBot.parser;
 import java.util.Calendar;
 import java.util.List;
 
+import welt.Hafen;
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.Source;
-import de.alta.ikariamBot.Hafen;
 
 public class HafenParser extends Parser{
 

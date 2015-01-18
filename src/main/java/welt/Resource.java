@@ -1,4 +1,4 @@
-package de.alta.ikariamBot;
+package welt;
 
 public enum Resource {
 	Holz("Baumaterial"), Stein("Stein"), Wein("Wein"), Kristal("Kristal"), Schwefel("Schwefel");

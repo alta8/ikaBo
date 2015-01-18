@@ -3,9 +3,9 @@ package de.alta.ikariamBot.parser;
 import java.util.ArrayList;
 import java.util.List;
 
+import welt.Gebaeude;
+import welt.Stadt;
 import net.htmlparser.jericho.Element;
-import de.alta.ikariamBot.Gebaeude;
-import de.alta.ikariamBot.Stadt;
 
 public class StadParser extends Parser{
 

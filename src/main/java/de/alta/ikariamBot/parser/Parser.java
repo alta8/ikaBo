@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import welt.City;
+import welt.Lager;
+import welt.Resource;
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.HTMLElementName;
 import net.htmlparser.jericho.HTMLElements;
 import net.htmlparser.jericho.Segment;
-import de.alta.ikariamBot.City;
 import de.alta.ikariamBot.Environment;
-import de.alta.ikariamBot.Lager;
-import de.alta.ikariamBot.Resource;
 import net.htmlparser.jericho.Source;
 
 public class Parser {

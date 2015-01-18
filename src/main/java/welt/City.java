@@ -1,4 +1,6 @@
-package de.alta.ikariamBot;
+package welt;
+
+import de.alta.ikariamBot.IBot;
 
 public class City {
 

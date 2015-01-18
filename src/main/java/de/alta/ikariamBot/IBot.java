@@ -26,10 +26,18 @@ import org.apache.http.params.HttpParams;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import welt.MilitaerBerater;
+import de.alta.ikariamBot.client.IkariamClient;
+
 public class IBot {
 
 	static Logger logger = LogManager.getLogger(IBot.class.getName());
+	private final IkariamClient client;
 	
+	public IBot(final IkariamClient client) {
+		this.client = client;
+	}
+
 	public static void main(String[] args) throws IOException 
 	{
 		URL url = Thread.currentThread().getContextClassLoader().getResource("log4j.xml");
@@ -44,10 +52,13 @@ public class IBot {
 			System.out.println("test");
 		}
 		
-		System.out.println("ping...");
-		DefaultHttpClient httpclient = new DefaultHttpClient();
-		HttpGet httpGet = new HttpGet("http://de.ikariam.gameforge.com/ajax/main/warserverinfos?nameDeimos&password=asdf12");
+		final IBot bot = IBotBuilder.createInstance()
+		    .addMilitaerBerater(new MilitaerBerater())
+		    .build();
+        bot.connect();
 		  
+        bot.iterate();
+        
 //		 einloggTest();
 	     
 	     // einloggen
@@ -66,6 +77,38 @@ public class IBot {
 	     // alle std -> waren verschiffen
 	     
 	     // schlafen legen.... für 3,5 min
+	}
+
+	/**
+	 * Baut Verbindung mit Ikariam auf.
+	 */
+	private void connect() {
+		final String content = client.login(null);
+        logger.debug("--- Seiten-Inhalt ---");
+        logger.debug(content);
+        logger.debug("---------------------");
+	}
+
+	/**
+	 * Ein iterations Schritt
+	 */
+	private void iterate() {
+		logger.info("iterate begin...");
+		
+		verteidigen();
+		
+		logger.info("iterate end.");
+	}
+
+	/**
+	 * Defensiv Massnahmen ergreifen falls noetig.
+	 */
+	private void verteidigen() 
+	{
+		final MilitaerBerater berater = new MilitaerBerater();
+		final boolean angriff = berater.erfolgtAngriff();
+		final ActionChain verteidigung = berater.verteidigungsStrategie(angriff);
+		verteidigung.run();
 	}
 
 	private static void einloggTest() throws IOException,
@@ -196,40 +239,6 @@ public class IBot {
 		 }
 	}
 
-	private static String login(Map<String, List<String>> cookies) {
-		String  content = "";
-		URL url;
-		HttpURLConnection conn;
-		
-		try {
-			url = new URL("http://s27-de.ikariam.gameforge.com/index.php?action=loginAvatar&function=login&name=deimos8&password=asdf12");
-			
-			conn = (HttpURLConnection)url.openConnection();
-//			conn = (HttpURLConnection)url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("localhost", 9000)));
-//			conn.addRequestProperty("name", "phobos");
-//			conn.addRequestProperty("password", "asdf8asdf");
-			conn.setRequestMethod("POST");
-			InputStream input = url.openStream();
-			printHeader(conn.getHeaderFields());
-			cookies = extractIkariamCookies(conn);
-			System.out.println("\n\n\nIkariam Cookies:");
-			printHeader(cookies);
-			int c;
-			StringBuilder source = new StringBuilder();
-			while ((c = input.read()) != -1)
-				source .append((char)c);
-			content = source.toString();
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return content;
-	}
-
 	private static String request(String urlStr) {
 		String  content = "";
 		URL url;
@@ -261,42 +270,9 @@ public class IBot {
 		return content;
 	}
 
-	private static Map<String, List<String>> extractIkariamCookies(
-			HttpURLConnection conn) {
+	void setMilitaerBerater(MilitaerBerater militaerBerater) {
 		// TODO Auto-generated method stub
-		Map<String, List<String> > headers = conn.getHeaderFields();
-		Map<String, List<String> > ikariamHeaders;
-		List<String> values;
-		boolean isIkariamCookie;
 		
-		ikariamHeaders = new HashMap<String, List<String>>();
-		
-		for (String headerName : headers.keySet()) {
-			isIkariamCookie = false;
-			if (headerName != null
-					&& headerName.toLowerCase().contains(
-							"Set-Cookie".toLowerCase())) {
-				values = headers.get(headerName);
-				for (String val : values) {
-					if (val.toLowerCase().contains("ikariam")) {
-						ikariamHeaders.put(headerName, values);
-					}
-				}
-			}
-		}
-		return ikariamHeaders;
-	}
-
-	private static void printHeader(Map<String, List<String> > headers) {
-		// TODO Auto-generated method stub
-		for (String headerName : headers.keySet()) {
-			System.out.println("name: " + headerName);
-			List<String> values = headers.get(headerName);
-			for (String val : values) {
-				System.out.print("  " + val);
-			}
-			System.out.println();
-		}
 	}
 	
 }

@@ -1,4 +1,4 @@
-package de.alta.ikariamBot;
+package welt;
 
 import java.util.ArrayList;
 import java.util.List;

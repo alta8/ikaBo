@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.alta.ikariamBot.Actions;
+import de.alta.ikariamBot.Action;
 import de.alta.ikariamBot.Environment;
 
 public class StrategieTestWarenVerteilen 
@@ -28,7 +28,7 @@ public class StrategieTestWarenVerteilen
     @Test
     public void testKeinbedarf()
     {	
-    	List<Actions> actions = mEnvironment.verteileWaren();
+    	List<Action> actions = mEnvironment.verteileWaren();
     	
     	// so will ich das eher doch nicht... die methode selbst soll die Aktionen durchführen
     	// environment bekommt einen Prozessor... der die Aktionen durchführt
