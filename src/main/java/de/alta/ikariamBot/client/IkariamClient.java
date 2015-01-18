@@ -31,15 +31,17 @@ public class IkariamClient {
 			connection = (HttpURLConnection)url.openConnection();
 			connection.setRequestMethod("POST");
 			final InputStream input = url.openStream();
-			printHeader(connection.getHeaderFields());
+//			printHeader(connection.getHeaderFields());
 			cookies = extractIkariamCookies(connection);
-			System.out.println("\n\n\nIkariam Cookies:");
-			printHeader(cookies);
+//			System.out.println("\n\n\nIkariam Cookies:");
+//			printHeader(cookies);
 			int c;
 			final StringBuilder source = new StringBuilder();
 			while ((c = input.read()) != -1)
 				source .append((char)c);
 			content = source.toString();
+			final boolean erfolgreich = content.toLowerCase().contains("create dataset for city");
+		    System.out.println("Einloggen war" + (!erfolgreich ? " nicht" : "") + " erfolgreich");
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

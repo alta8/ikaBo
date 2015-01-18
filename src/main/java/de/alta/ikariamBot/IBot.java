@@ -8,9 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -31,6 +29,8 @@ import de.alta.ikariamBot.client.IkariamClient;
 
 public class IBot {
 
+	static final int MIN_SLEEP_DURATION_IN_SEC = 3*60;
+	static final int MAX_SLEEP_DURATION_OFFSET_IN_SEC = 30;
 	static Logger logger = LogManager.getLogger(IBot.class.getName());
 	private final IkariamClient client;
 	
@@ -55,9 +55,15 @@ public class IBot {
 		final IBot bot = IBotBuilder.createInstance()
 		    .addMilitaerBerater(new MilitaerBerater())
 		    .build();
-        bot.connect();
-		  
-        bot.iterate();
+
+		for (int i=0; i<10; i++)
+		{
+	        bot.connect();
+			  
+	        bot.iterate();
+	        
+	        bot.sleep(IBot.sleepDuration());
+		}
         
 //		 einloggTest();
 	     
@@ -80,13 +86,37 @@ public class IBot {
 	}
 
 	/**
+	 * Thread pausiert
+	 * @param duration Zeit die pausiert werden soll in Sekunden.
+	 */
+	private void sleep(final int duration) {
+		try {
+			System.out.println("\tschlafen: " + duration + " sec");
+			final int durationInMSec = duration * 1000;
+			Thread.sleep(durationInMSec);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Ermittelt Zeit die Thread pausieren soll.
+	 * @return
+	 */
+	static int sleepDuration()
+	{
+		int duration = MAX_SLEEP_DURATION_OFFSET_IN_SEC;
+		final int offset = (int)(MIN_SLEEP_DURATION_IN_SEC*Math.random());
+		duration += offset;
+		return duration;
+	}
+	
+	/**
 	 * Baut Verbindung mit Ikariam auf.
 	 */
 	private void connect() {
 		final String content = client.login(null);
-        logger.debug("--- Seiten-Inhalt ---");
-        logger.debug(content);
-        logger.debug("---------------------");
 	}
 
 	/**
@@ -108,7 +138,7 @@ public class IBot {
 		final MilitaerBerater berater = new MilitaerBerater();
 		final boolean angriff = berater.erfolgtAngriff();
 		final ActionChain verteidigung = berater.verteidigungsStrategie(angriff);
-		verteidigung.run();
+//		verteidigung.run();
 	}
 
 	private static void einloggTest() throws IOException,
