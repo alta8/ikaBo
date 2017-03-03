@@ -26,7 +26,7 @@ public class IkariamClient {
 		String  content = "";
 		
 		try {
-			final URL url = new URL("http://s27-de.ikariam.gameforge.com/index.php?action=loginAvatar&function=login&name=deimos8&password=asdf12");
+			final URL url = new URL("http://s17-de.ikariam.gameforge.com/index.php?action=loginAvatar&function=login&name=phobos&password=hale88");
 			
 			connection = (HttpURLConnection)url.openConnection();
 			connection.setRequestMethod("POST");
