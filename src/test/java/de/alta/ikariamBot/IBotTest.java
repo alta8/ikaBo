@@ -14,7 +14,7 @@ public class IBotTest {
 	{
 		final int duration = IBot.sleepDuration();
 		
-		assertTrue(MIN_SLEEP_DURATION_IN_SEC*60 <= duration);
-		assertTrue(duration <= MAX_SLEEP_DURATION_OFFSET_IN_SEC);
+		assertTrue(MIN_SLEEP_DURATION_IN_SEC <= duration);
+		assertTrue(duration <= MIN_SLEEP_DURATION_IN_SEC + MAX_SLEEP_DURATION_OFFSET_IN_SEC);
 	}
 }

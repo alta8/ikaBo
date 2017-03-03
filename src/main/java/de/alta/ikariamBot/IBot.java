@@ -106,15 +106,11 @@ public class IBot {
 	 */
 	static int sleepDuration()
 	{
-		int duration = MAX_SLEEP_DURATION_OFFSET_IN_SEC;
-		final int offset = (int)(MIN_SLEEP_DURATION_IN_SEC*Math.random());
-		duration += offset;
+		final int duration = (int)(MIN_SLEEP_DURATION_IN_SEC 
+				+ MAX_SLEEP_DURATION_OFFSET_IN_SEC * Math.random());
 		return duration;
 	}
 	
-	/**
-	 * Baut Verbindung mit Ikariam auf.
-	 */
 	private void connect() {
 		final String content = client.login(null);
 	}
