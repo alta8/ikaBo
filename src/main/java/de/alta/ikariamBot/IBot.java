@@ -1,14 +1,20 @@
 package de.alta.ikariamBot;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -24,13 +30,15 @@ import org.apache.http.params.HttpParams;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import welt.Insel;
 import welt.MilitaerBerater;
 import de.alta.ikariamBot.client.IkariamClient;
+import de.alta.ikariamBot.parser.InselParser;
+import de.alta.ikariamBot.parser.InselReichParser;
+import de.alta.ikariamBot.parser.ParserInput;
 
 public class IBot {
 
-	static final int MIN_SLEEP_DURATION_IN_SEC = 3*60;
-	static final int MAX_SLEEP_DURATION_OFFSET_IN_SEC = 30;
 	static Logger logger = LogManager.getLogger(IBot.class.getName());
 	private final IkariamClient client;
 	
@@ -45,7 +53,7 @@ public class IBot {
 		{
 			System.out.println("asdf");
 		}
-		logger.error("TestTEST");
+		logger.info("TestTEST");
 		url = Thread.currentThread().getContextClassLoader().getResource("test.xml");
 		if (null == url)
 		{
@@ -55,15 +63,23 @@ public class IBot {
 		final IBot bot = IBotBuilder.createInstance()
 		    .addMilitaerBerater(new MilitaerBerater())
 		    .build();
+		bot.login();
 
-		for (int i=0; i<10; i++)
-		{
-	        bot.connect();
-			  
-	        bot.iterate();
-	        
-	        bot.sleep(IBot.sleepDuration());
-		}
+		final Map<String, String> params = new HashMap<>();
+		params.put("view", "island");
+		params.put("islandId", "389");
+		final InputStream inselInputStream = bot.client.connectToUrl("https://s17-de.ikariam.gameforge.com/index.php", params);
+		final InselReichParser irp = new InselReichParser(new InselParser(new ParserInput(inselInputStream)));
+		final List<Insel> inseln = irp.parse();
+		
+//		for (int i=0; i<10; i++)
+//		{
+//	        
+//			  
+//	        bot.iterate();
+//	        
+//	        Util.sleep(Util.sleepDuration());
+//		}
         
 //		 einloggTest();
 	     
@@ -85,34 +101,8 @@ public class IBot {
 	     // schlafen legen.... für 3,5 min
 	}
 
-	/**
-	 * Thread pausiert
-	 * @param duration Zeit die pausiert werden soll in Sekunden.
-	 */
-	private void sleep(final int duration) {
-		try {
-			System.out.println("\tschlafen: " + duration + " sec");
-			final int durationInMSec = duration * 1000;
-			Thread.sleep(durationInMSec);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Ermittelt Zeit die Thread pausieren soll.
-	 * @return
-	 */
-	static int sleepDuration()
-	{
-		final int duration = (int)(MIN_SLEEP_DURATION_IN_SEC 
-				+ MAX_SLEEP_DURATION_OFFSET_IN_SEC * Math.random());
-		return duration;
-	}
-	
-	private void connect() {
-		final String content = client.login(null);
+	private void login() throws IOException {
+		final String content = client.login();
 	}
 
 	/**

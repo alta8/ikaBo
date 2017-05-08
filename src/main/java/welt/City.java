@@ -9,6 +9,7 @@ public class City {
 	private String mIsland;
 	private int mX;
 	private int mY;
+	private boolean inaktive;
 	
 	public City(String name)
 	{
@@ -56,6 +57,14 @@ public class City {
 	public int getActionPoints() {
 		// TODO Auto-generated method stub
 		return 99;
+	}
+
+	public void setInaktive(boolean inaktive) {
+		this.inaktive = inaktive;
+	}
+	
+	public boolean isInaktive() {
+		return this.inaktive;
 	}
 
 }
