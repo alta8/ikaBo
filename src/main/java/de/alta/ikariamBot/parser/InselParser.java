@@ -49,7 +49,12 @@ public class InselParser extends Parser {
 		try {
 			final int x = Integer.parseInt(parts[0].substring(1));
 			insel.setX(x);
-			final int y = Integer.parseInt(parts[1].substring(0, parts.length));
+			int endIdx = parts[1].length();
+			final char endChar = parts[1].charAt(endIdx-1);
+			if (endChar < '0' || endChar > '9') {
+				endIdx = parts[1].length()-1;
+			}
+			final int y = Integer.parseInt(parts[1].substring(0, endIdx));
 			insel.setY(y);
 		} catch (NumberFormatException e) {
 			System.out.println(xy + " kann nicht weiterverarbeitet werden:");
