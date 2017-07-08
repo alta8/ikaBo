@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -28,11 +30,15 @@ public class InselReichParser {
 	public InselReichParser(InselParser inselParser) 
 	{
 		this.inselParser = inselParser;
-		this.out = Paths.get("/home/alta/temp/ikaBot/out.txt");
+		//this.out = Paths.get("/home/alta/temp/ikaBot/out.txt");
+		final LocalDateTime now = LocalDateTime.now();
+		final String dateTimePart = now.format(DateTimeFormatter.ofPattern("YYYY_MM_dd-HHmm"));
+		this.out = Paths.get("/media/alta/INTENSO/projs/ikaBo/data/out_" + dateTimePart + ".txt");
 	}
 
 	public List<Insel> parse() throws IOException {
 		final List<Insel> inseln = new ArrayList<>();
+		Files.createFile(out);
 		try (BufferedWriter writer = Files.newBufferedWriter(out))
 		{
 		IntStream.rangeClosed(MIN_ID, MAX_ID).mapToObj(i -> BASE_URL + i)
